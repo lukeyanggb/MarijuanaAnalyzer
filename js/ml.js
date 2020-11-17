@@ -1,7 +1,52 @@
 drawCollapsibleTree()
 
+function getPredictionResults() {
+  const ids = [
+    'inputGroupSelectEducation',
+    'inputGroupSelectEmployment',
+    'inputGroupSelectMarijuana',
+    'inputGroupSexualId',
+    'inputGroupHealth',
+    'inputGroupEduDrugs',
+    'inputGroupGrade',
+    'inputGroupAttack',
+    'inputGroupReligious'
+  ];
 
+  const modelTypes = [
+    'alcohol',
+    'cocever',
+    'crkever',
+    'herever',
+    'impsoc',
+    'metha',
+    'tobacco'
+  ];
 
+  const input = ids.reduce((prev, id) => {
+    prev.push(+document.getElementById(id).value);
+    return prev;
+  }, []);
+  console.log(input);
+
+  return new Promise((resolve, reject) => {
+    Promise.all(modelTypes.reduce((prev, type) => {
+      prev.push(new Promise((resolve, reject) => {
+        const url = new URL('https://duovdp3m2c.execute-api.us-east-1.amazonaws.com/Prod/predict');
+        url.search = new URLSearchParams({
+          type: type,
+          input: JSON.stringify(input)
+        }).toString();
+        fetch(url)
+          .then(response => response.ok ? response.json() : Promise.reject(response))
+          .then(json => resolve(json.output))
+          .catch(error => reject(error));
+      }));
+      return prev;
+    }, [])).then(values => resolve(values))
+    .catch(e => reject(e));
+  });
+}
 
 // call endpoints and get data
 function getDataForTree() {
