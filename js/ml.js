@@ -1,6 +1,6 @@
 drawCollapsibleTree()
 
-function getPredictionResults() {
+function getPredictionResultsPromise() {
   const ids = [
     'inputGroupSelectEducation',
     'inputGroupSelectEmployment',
@@ -47,6 +47,12 @@ function getPredictionResults() {
     .catch(e => reject(e));
   });
 }
+
+// example code to get result
+const predictionResultPromise = getPredictionResultsPromise();
+predictionResultPromise.then(value => {
+  console.log(value);
+});
 
 // call endpoints and get data
 function getDataForTree() {
