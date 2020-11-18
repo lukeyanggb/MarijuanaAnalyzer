@@ -1,7 +1,6 @@
 drawCollapsibleTree()
 
 function getPredictionResults() {
-  // example code to get result
   const predictionResultPromise = getPredictionResultsPromise();
   predictionResultPromise.then(value => {
     // TODO: use value to update graph
