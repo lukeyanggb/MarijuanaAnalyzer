@@ -1,5 +1,14 @@
 drawCollapsibleTree()
 
+function getPredictionResults() {
+  // example code to get result
+  const predictionResultPromise = getPredictionResultsPromise();
+  predictionResultPromise.then(value => {
+    // TODO: use value to update graph
+    console.log(value);
+  });
+}
+
 function getPredictionResultsPromise() {
   const ids = [
     'inputGroupSelectEducation',
@@ -32,35 +41,32 @@ function getPredictionResultsPromise() {
 
   return new Promise((resolve, reject) => {
     Promise.all(modelTypes.reduce((prev, type) => {
-      prev.push(new Promise((resolve, reject) => {
-        const url = new URL('https://duovdp3m2c.execute-api.us-east-1.amazonaws.com/Prod/predict');
-        url.search = new URLSearchParams({
-          type: type,
-          input: JSON.stringify(input)
-        }).toString();
-        fetch(url)
-          .then(response => response.ok ? response.json() : Promise.reject(response))
-          .then(json => resolve({
-            key: type,
-            value: +json.output
-          }))
-          .catch(error => reject(error));
-      }));
-      return prev;
-    }, []))
-    .then(values => resolve(values.reduce((prev, curr) => {
-      prev[curr.key] = curr.value;
-      return prev;
-    }, {})))
-    .catch(e => reject(e));
+        prev.push(new Promise((resolve, reject) => {
+          const url = new URL('https://duovdp3m2c.execute-api.us-east-1.amazonaws.com/Prod/predict');
+          url.search = new URLSearchParams({
+            type: type,
+            input: JSON.stringify(input)
+          }).toString();
+          fetch(url)
+            .then(response => response.ok ? response.json() : Promise.reject(response))
+            .then(json => resolve({
+              key: type,
+              value: +json.output
+            }))
+            .catch(error => reject(error));
+        }));
+        return prev;
+      }, []))
+      .then(values => resolve(values.reduce((prev, curr) => {
+        prev[curr.key] = curr.value;
+        return prev;
+      }, {})))
+      .catch(e => reject(e));
   });
 }
 
-// example code to get result
-const predictionResultPromise = getPredictionResultsPromise();
-predictionResultPromise.then(value => {
-  console.log(value);
-});
+// example: test run
+getPredictionResults();
 
 // call endpoints and get data
 function getDataForTree() {
