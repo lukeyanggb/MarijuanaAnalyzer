@@ -20,7 +20,8 @@ function getPredictionResultsPromise() {
     'herever',
     'impsoc',
     'metha',
-    'tobacco'
+    'tobacco',
+    'impwork'
   ];
 
   const input = ids.reduce((prev, id) => {
