@@ -109,7 +109,7 @@ function drawCollapsibleTree(value) {
   var resultsList = []
   for (let k in value) {
     //console.log(k + ' is ' + value[k])
-    mapToName = {"alcohol" : "Alcohol use", "cocever" : "Cocaine use", "crkever" : "Crack use","herever" : "Heroin use", "impsoc" : "Difficult to socilize", "tobacco" : "Tobacco use", "metha" : "Methamphetamine use", "impwork" : "Difficult to do daily work"} 
+    mapToName = {"alcohol" : "Alcohol use", "cocever" : "Cocaine use", "crkever" : "Crack use","herever" : "Heroin use", "impsoc" : "Difficult to socialize", "tobacco" : "Tobacco use", "metha" : "Methamphetamine use", "impwork" : "Difficult to do daily work"} 
     console.log("k", mapToName[k])
     modelsList.push(mapToName[k])
     if (value[k] == 0) {
