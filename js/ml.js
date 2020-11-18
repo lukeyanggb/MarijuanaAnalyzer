@@ -39,11 +39,18 @@ function getPredictionResultsPromise() {
         }).toString();
         fetch(url)
           .then(response => response.ok ? response.json() : Promise.reject(response))
-          .then(json => resolve(json.output))
+          .then(json => resolve({
+            key: type,
+            value: +json.output
+          }))
           .catch(error => reject(error));
       }));
       return prev;
-    }, [])).then(values => resolve(values))
+    }, []))
+    .then(values => resolve(values.reduce((prev, curr) => {
+      prev[curr.key] = curr.value;
+      return prev;
+    }, {})))
     .catch(e => reject(e));
   });
 }
