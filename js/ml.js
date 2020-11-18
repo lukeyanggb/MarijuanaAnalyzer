@@ -1,11 +1,10 @@
-drawCollapsibleTree()
-
 function getPredictionResults() {
   // example code to get result
   const predictionResultPromise = getPredictionResultsPromise();
   predictionResultPromise.then(value => {
     // TODO: use value to update graph
-    console.log(value);
+    // console.log("onClick", result);
+    drawCollapsibleTree(value)
   });
 }
 
@@ -37,8 +36,7 @@ function getPredictionResultsPromise() {
     prev.push(+document.getElementById(id).value);
     return prev;
   }, []);
-  console.log(input);
-
+  console.log("input", input);
   return new Promise((resolve, reject) => {
     Promise.all(modelTypes.reduce((prev, type) => {
         prev.push(new Promise((resolve, reject) => {
@@ -68,36 +66,83 @@ function getPredictionResultsPromise() {
 // example: test run
 getPredictionResults();
 
-// call endpoints and get data
-function getDataForTree() {
-
-}
-
 // draw tree
 // Reference: https://blockbuilder.org/tejaser/55c43b4a9febca058363a5e58edbce81
 // Thos function is modified based on reference.
-function drawCollapsibleTree() {
+function drawCollapsibleTree(value) {
+  console.log("value in tree", value)
+  
+  // clean up
+  d3.select("#treeResult").remove()
+  d3.select("#mlResultsInTree")
+  .append("div")
+  .attr("id", "treeResult")
+
+  // Set the dimensions and margins of the diagram
+  var margin = {
+    top: 20,
+    right: 90,
+    bottom: 30,
+    left: 90
+  },
+  width = 1000 - margin.left - margin.right,
+  height = 500 - margin.top - margin.bottom;
+
+  var colorScale = d3.scaleLinear()
+  .domain([0, 1])
+  .range(['red', 'green']);
+  var widthScale = d3.scaleLinear()
+  .domain([1, 80])
+  .range([1, 10]);
+
+  // append the svg object to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  var svg = d3.select("#treeResult").append("svg")
+  .attr("width", width + margin.right + margin.left)
+  .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+  .attr("id", "prev")
+  .attr("transform", "translate(" +
+    margin.left + "," + margin.top + ")");
+
+  var modelsList = []
+  var resultsList = []
+  for (let k in value) {
+    //console.log(k + ' is ' + value[k])
+    mapToName = {"alcohol" : "Alcohol use", "cocever" : "Cocaine use", "crkever" : "Crack use","herever" : "Heroin use", "impsoc" : "Difficult to socilize", "tobacco" : "Tobacco use", "metha" : "Methamphetamine use", "impwork" : "Difficult to do daily work"} 
+    console.log("k", mapToName[k])
+    modelsList.push(mapToName[k])
+    if (value[k] == 0) {
+      resultsList.push("low probabilty")
+    } else {
+      resultsList.push("high probabilty")
+    }
+}
+
+//console.log(modelsList)
+//console.log(resultsList)
   var treeData = {
     "name": "Prediciton",
     "value": 75,
     "type": "black",
     "level": "red",
-    "male": 51,
-    "female": 24,
+    "customvalue1": 51,
+    "customvalue2": 24,
     "children": [{
         "name": "Model_1",
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_1",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -105,15 +150,15 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_2",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -121,15 +166,15 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_3",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -137,15 +182,15 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_4",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -153,15 +198,15 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_5",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -169,15 +214,15 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_6",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -185,15 +230,15 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_7",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       },
       {
@@ -201,78 +246,32 @@ function drawCollapsibleTree() {
         "value": 40,
         "type": "black",
         "level": "green",
-        "male": 23,
-        "female": 17,
+        "customvalue1": 23,
+        "customvalue2": 17,
         "children": [{
           "name": "Result_8",
           "value": 20,
           "type": "grey",
           "level": "red",
-          "male": 3,
-          "female": 0,
-        }, ]
-      },
-      {
-        "name": "Model_9",
-        "value": 40,
-        "type": "black",
-        "level": "green",
-        "male": 23,
-        "female": 17,
-        "children": [{
-          "name": "Result_9",
-          "value": 20,
-          "type": "grey",
-          "level": "red",
-          "male": 3,
-          "female": 0,
-        }, ]
-      },
-      {
-        "name": "Model_10",
-        "value": 40,
-        "type": "black",
-        "level": "green",
-        "male": 23,
-        "female": 17,
-        "children": [{
-          "name": "Result_10",
-          "value": 20,
-          "type": "grey",
-          "level": "red",
-          "male": 3,
-          "female": 0,
+          "customvalue1": 3,
+          "customvalue2": 0,
         }, ]
       }
     ]
   };
 
-  // Set the dimensions and margins of the diagram
-  var margin = {
-      top: 20,
-      right: 90,
-      bottom: 30,
-      left: 90
-    },
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
 
-  var colorScale = d3.scaleLinear()
-    .domain([0, 1])
-    .range(['red', 'green']);
-  var widthScale = d3.scaleLinear()
-    .domain([1, 80])
-    .range([1, 10]);
+  for (let i in treeData.children) {
+    var model  = treeData.children[i]
+    //console.log("model", model)
+    model.name  = modelsList[i]
+    for (j in model.children) {
+      var result  = model.children[j]
+      //console.log("result", result)
+      result.name = resultsList[i]
+    }
+  }
 
-  // append the svg object to the body of the page
-  // appends a 'group' element to 'svg'
-  // moves the 'group' element to the top left margin
-  var svg = d3.select("#my_dataviz").append("svg")
-    .attr("width", width + margin.right + margin.left)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", "translate(" +
-      margin.left + "," + margin.top + ")");
 
   var i = 0,
     duration = 750,
@@ -340,7 +339,7 @@ function drawCollapsibleTree() {
         return d._children ? "lightsteelblue" : "#fff";
       })
       .style("stroke", function (d) {
-        return colorScale(d.data.female / (d.data.female + d.data.male))
+        return colorScale(d.data.customvalue2 / (d.data.customvalue2 + d.data.customvalue1))
       });
 
     // Add labels for the nodes
@@ -356,7 +355,7 @@ function drawCollapsibleTree() {
         return d.data.name;
       })
       .style("fill", function (d) {
-        return colorScale(d.data.female / (d.data.value))
+        return colorScale(d.data.customvalue2 / (d.data.value))
       });
 
     // UPDATE
