@@ -182,17 +182,17 @@ function ready(error, us, mjData) {
                     .attr("dx", 20)
                     .attr("dy", 23)
                     .attr("id", "prev")
-                    .text("No laws legalizing marijuana")
+                    .text("Illegal")
         var text2 = svg2.append("text")
                     .attr("dx", 20)
                     .attr("dy", 43)
                     .attr("id", "prev")
-                    .text("Medical marijuana legalized")
+                    .text("Medical Only")
         var text3 = svg2.append("text")
                     .attr("dx", 20)
                     .attr("dy", 63)
                     .attr("id", "prev")
-                    .text("Marijuana legalized for recreational use")
+                    .text("Medical & Recreational")
 
     playButton
         .on("click", function() {
@@ -298,11 +298,11 @@ function createMapAndLegend(us, mjData, selectedYear) {
                     us.features[j].properties.value = dataValue;
                     us.features[j].properties.selectedYear = selectedYear;
                             if (recre == "Yes") {
-                                us.features[j].properties.status = "Marijuana legalized for recreational use"
+                                us.features[j].properties.status = "Medical & Recreational"
                             } else if (medical == "Yes") {
-                                us.features[j].properties.status = "Medical marijuana legalized"
+                                us.features[j].properties.status = "Medical Only"
                             } else {
-                                us.features[j].properties.status = "No laws legalizing marijuana"
+                                us.features[j].properties.status = "Illegal"
                             }
                 // Stop looking through the JSON
                 break;
@@ -322,13 +322,13 @@ function createMapAndLegend(us, mjData, selectedYear) {
         .attr("fill", function(d) {
             //console.log("status", d)
             var status = d["properties"]["status"]
-            if (status == "No laws legalizing marijuana") {
+            if (status == "Illegal") {
                 return "#deebf7"
             }
-            if (status == "Medical marijuana legalized") {
+            if (status == "Medical Only") {
                 return "#9ecae1"
             }
-            if (status == "Marijuana legalized for recreational use") {
+            if (status == "Medical & Recreational") {
                 return "#3182bd"
             }
         })
