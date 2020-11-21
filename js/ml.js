@@ -89,7 +89,7 @@ function drawCollapsibleTree(value) {
 
   var colorScale = d3.scaleLinear()
   .domain([0, 1])
-  .range(['red', 'green']);
+  .range(["#dd1c77", "#2b8cbe"]);
   var widthScale = d3.scaleLinear()
   .domain([1, 80])
   .range([1, 10]);
