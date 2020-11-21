@@ -10,6 +10,8 @@ width = 700 - margin.left - margin.right,
 //height = window.innerHeight - margin.top - margin.bottom;
 height = 400
 
+//  Reference: https://bl.ocks.org/officeofjane/47d2b0bfeecfcb41d2212d06d095c763
+//  time slider bar feature was modified based on https://bl.ocks.org/officeofjane/47d2b0bfeecfcb41d2212d06d095c763
 var playButton = d3.select("#play-button");
 var moving = false;
 var targetValue = 600;
