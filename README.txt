@@ -1,6 +1,4 @@
 MarijuanaAnalyzer: an Intelligent Visualization and Analysis Web App
-TEAM 47
-11/20/2020
 
 1. DESCRIPTION:
 ----------------------------------------------------------------------------------
@@ -51,8 +49,6 @@ go to url "https://lukeyanggb.github.io/"
 
 4. APPENDIX
 ----------------------------------------------------------------------------------
-TEAM MEMBERS:
-Muzi Bi, Yang Lu, Fangxia Tian, Jing Ren, Jian Wang, Yutong Wu
 
 LANGUAGES:
 Python, Javascript, HTML, CSS
